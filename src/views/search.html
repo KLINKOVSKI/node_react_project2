@@ -1,0 +1,48 @@
+<div class="flex bg-gradient-to-b from-indigo-900 to-black min-h-screen">
+  <sidebar></sidebar>
+  
+  <main class="flex-1 ml-64 p-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="relative mb-8">
+        <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+        <input
+          type="text"
+          ng-model="vm.query"
+          ng-model-options="{ debounce: 300 }"
+          ng-change="vm.search()"
+          placeholder="Search for songs or artists"
+          class="w-full pl-12 pr-4 py-4 bg-white bg-opacity-10 rounded-full text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
+        >
+      </div>
+
+      <div ng-if="vm.loading" class="flex items-center justify-center py-12">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500"></div>
+      </div>
+
+      <div ng-if="!vm.loading && vm.tracks.length === 0 && vm.query" class="text-center py-12">
+        <p class="text-gray-400">No results found for "{{vm.query}}"</p>
+      </div>
+
+      <div ng-if="!vm.loading && vm.tracks.length > 0" class="space-y-4">
+        <div
+          ng-repeat="track in vm.tracks"
+          class="flex items-center space-x-4 p-4 rounded-lg hover:bg-white hover:bg-opacity-10 group cursor-pointer"
+          ng-click="vm.playTrack(track)"
+        >
+          <img
+            ng-src="{{track.image}}"
+            alt="{{track.name}}"
+            class="w-16 h-16 rounded"
+          >
+          <div class="flex-1">
+            <h3 class="font-medium text-white">{{track.name}}</h3>
+            <p class="text-sm text-gray-400">{{track.artist_name}}</p>
+          </div>
+          <button class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <i class="fas fa-play text-black"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

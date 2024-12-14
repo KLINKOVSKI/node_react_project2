@@ -1,0 +1,51 @@
+<div class="flex bg-gradient-to-b from-indigo-900 to-black min-h-screen">
+  <sidebar></sidebar>
+  
+  <main class="flex-1 ml-64 p-8">
+    <div ng-if="vm.playlist" class="max-w-6xl mx-auto">
+      <div class="flex items-center space-x-6 mb-8">
+        <div class="w-48 h-48 bg-gray-800 rounded-lg shadow-lg flex items-center justify-center">
+          <i class="fas fa-music text-4xl text-gray-600"></i>
+        </div>
+        <div>
+          <h1 class="text-4xl font-bold text-white mb-2">{{vm.playlist.name}}</h1>
+          <p class="text-gray-400">{{vm.tracks.length}} songs</p>
+        </div>
+      </div>
+
+      <div class="mt-8">
+        <table class="w-full">
+          <thead>
+            <tr class="text-left text-sm text-gray-400 border-b border-gray-800">
+              <th class="pb-4 font-medium">#</th>
+              <th class="pb-4 font-medium">Title</th>
+              <th class="pb-4 font-medium">Artist</th>
+              <th class="pb-4 font-medium">Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr 
+              ng-repeat="track in vm.tracks"
+              class="group hover:bg-white hover:bg-opacity-10 cursor-pointer"
+              ng-click="vm.playTrack(track)"
+            >
+              <td class="py-4 text-gray-400">{{$index + 1}}</td>
+              <td class="py-4">
+                <div class="flex items-center space-x-4">
+                  <img 
+                    ng-src="{{track.artwork}}" 
+                    alt="{{track.title}}"
+                    class="w-10 h-10 rounded"
+                  >
+                  <span class="text-white">{{track.title}}</span>
+                </div>
+              </td>
+              <td class="py-4 text-gray-400">{{track.artist}}</td>
+              <td class="py-4 text-gray-400">{{track.duration | date:'mm:ss'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
