@@ -1,0 +1,32 @@
+/* Styling for the main container */
+.app-container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align everything towards the top */
+}
+
+/* Styling for the header */
+.header {
+  text-align: center;
+  margin-bottom: 10px;  /* Reduced margin to bring the title closer to the login cube */
+}
+
+.header h1 {
+  font-size: 36px;
+  margin: 0;
+  color: #333;
+}
+
+/* Styling for the footer */
+.footer {
+  text-align: center;
+  margin-top: 10px;  /* Reduced margin to bring the footer closer to the bottom */
+  font-size: 14px;
+  color: #777;
+}

@@ -1,0 +1,51 @@
+<!-- signup.component.html -->
+<div class="signup-form">
+  <h2>Sign Up</h2>
+
+  <!-- Sign up form -->
+  <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        id="name"
+        class="form-control"
+        required
+        [(ngModel)]="user.name"
+        name="name"
+        #name="ngModel"
+      />
+      <div *ngIf="name.invalid && name.touched" class="error">Name is required</div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        required
+        [(ngModel)]="user.email"
+        name="email"
+        #email="ngModel"
+      />
+      <div *ngIf="email.invalid && email.touched" class="error">Email is required</div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        required
+        [(ngModel)]="user.password"
+        name="password"
+        #password="ngModel"
+      />
+      <div *ngIf="password.invalid && password.touched" class="error">Password is required</div>
+    </div>
+
+    <button type="submit" [disabled]="signupForm.invalid">Sign Up</button>
+  </form>
+</div>
