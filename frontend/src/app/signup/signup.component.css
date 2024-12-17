@@ -1,29 +1,119 @@
-.login-container {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f4f4f4;
-  border-radius: 8px;
-}
-
-form div {
-  margin-bottom: 15px;
-}
-
-input {
+/* Styling for the signup container */
+.signup-container {
   width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #4CAF50;
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #28a745; /* Green background for the signup cube */
+  border-radius: 15px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Styling for the heading inside the signup container */
+.signup-container h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* Beautiful font for the h2 element */
+.signup-container h3 {
+  font-family: 'Georgia', serif;
+  font-size: 18px;
+  color: #f9f9f9;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* Styling for the form labels and inputs */
+.signup-container label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #f9f9f9;
+  text-align: left;
+  width: 100%;
+}
+
+/* Styling for the input fields */
+.signup-container input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  font-size: 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
+  outline: none;
+}
+
+/* Input focus state */
+.signup-container input:focus {
+  border: 2px solid #ffffff;
+}
+
+/* Styling for the submit button */
+.signup-container button {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 5px;
+  color: #333;
   cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Styling for the link to login */
+.signup-container a {
+  color: #f1f1f1;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.signup-container a:hover {
+  color: #f9f9f9;
+}
+
+/* Fix for aligning form inputs and button correctly */
+.signup-container form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Add a little space between the form elements */
+.signup-container input,
+.signup-container button {
+  max-width: 400px;
+}
+
+/* Success message styling */
+.success-message {
+  background-color: #28a745;
+  color: white;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Error message styling */
+.error-message {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  font-weight: bold;
 }

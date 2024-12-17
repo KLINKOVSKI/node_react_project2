@@ -1,40 +1,42 @@
-// signup.component.ts
 import { Component } from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {NgIf} from '@angular/common';
+import { Router } from '@angular/router';  // Import the Router module
+import {FormsModule, NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   imports: [
-    FormsModule,
-    NgIf
+    FormsModule
   ],
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent {
-  // Define a user object to bind to the form fields
   user = {
     name: '',
-    email: '',
-    password: ''
+    surname: '',
+    username: '',
+    dob: '',
+    email: ''
   };
+  successMessage = '';  // Variable to hold success message
+  errorMessage = '';    // Variable to hold error message
 
-  // Handle the form submission
-  onSubmit() {
-    if (this.user.name && this.user.email && this.user.password) {
-      console.log('User Registered:', this.user);
-      // Here you can send the form data to a backend API for registration
-      // For now, we're just logging it to the console
+  constructor(private router: Router) {}
 
-      // Optionally, reset the form after submission
-      this.user = {
-        name: '',
-        email: '',
-        password: ''
-      };
+  // Signup logic
+  onSignup(signupForm: NgForm) {
+    if (signupForm.valid) {
+      // Simulate a successful signup process, e.g., call your backend API
+      this.successMessage = 'Signup successful! You will be redirected to the login page.';
+      this.errorMessage = '';  // Clear any previous error messages
+
+      // Redirect to the login page after a delay
+      setTimeout(() => {
+        this.router.navigate(['/login']); // Assuming the login route is '/login'
+      }, 2000);  // 2 seconds delay before redirecting
     } else {
-      console.log('Please fill in all the fields');
+      this.successMessage = '';  // Clear success message
+      this.errorMessage = 'Please fill in all fields correctly.';
     }
   }
 }

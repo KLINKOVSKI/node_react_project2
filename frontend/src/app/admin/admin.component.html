@@ -1,4 +1,27 @@
-<div class="admin-page">
-  <h2>Admin Page</h2>
-  <p>Welcome, Admin!</p>
+<div class="admin-container">
+  <h2>Admin Dashboard</h2>
+
+  <!-- Button to return to Login page -->
+  <button (click)="logout()">Return to Login</button>
+
+  <!-- Informational Boxes (Top Row) -->
+  <div class="info-cubes">
+    <div class="info-cube">
+      <h3>Add Song Feature</h3>
+      <p>This feature will allow the admin to upload a song, including title, artist, genre, and MP3 file.</p>
+    </div>
+
+    <div class="info-cube">
+      <h3>Add Album Feature</h3>
+      <p>This feature will allow the admin to create an album, with details such as artist, genre, and songs.</p>
+    </div>
+  </div>
+
+  <!-- AG Grid Feature (Bottom Row) -->
+  <div class="info-cubes">
+    <div class="info-cube">
+      <h3>AG Grid Feature</h3>
+      <p>This feature will allow the admin to view and manage all registered users in a grid layout using AG Grid.</p>
+    </div>
+  </div>
 </div>

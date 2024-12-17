@@ -1,0 +1,44 @@
+.info-cubes {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+  width: 100%;
+  gap: 20px;
+}
+
+.info-cube {
+  width: 30%; /* Adjust the width to make sure cubes have a good distribution */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-cube h3 {
+  font-size: 20px;
+  color: #333;
+}
+
+.info-cube p {
+  font-size: 16px;
+  color: #666;
+  margin-top: 10px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .info-cubes {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .info-cube {
+    width: 80%; /* Ensure cubes take up more space on smaller screens */
+    margin-bottom: 20px; /* Add spacing between cubes */
+  }
+}
