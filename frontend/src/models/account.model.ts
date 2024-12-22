@@ -5,6 +5,7 @@
  */
 export class Account {
   constructor(
+    public id: number,
     public name: string, // User's first name
     public surname: string, // User's last name
     public username: string, // Unique username for the account
