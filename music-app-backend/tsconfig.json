@@ -11,7 +11,7 @@
     "experimentalDecorators": true,          // Enable experimental support for decorators
     "emitDecoratorMetadata": true,           // Emit metadata required for decorators
     "moduleResolution": "node",              // Resolve modules the way Node.js does
-    "resolveJsonModule": true                // Allow importing JSON files
+    "resolveJsonModule": true               // Allow importing JSON file
   },
   "include": ["src/**/*.ts"],                 // Include all TypeScript files in the src folder
   "exclude": ["node_modules"]                 // Exclude the node_modules folder

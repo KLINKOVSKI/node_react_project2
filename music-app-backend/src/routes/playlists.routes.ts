@@ -1,29 +1,30 @@
-import express from 'express';
-import { createPlaylist, getPlaylistsByUserId } from '../models/playlist.model';
+import { Router } from 'express';
+import { PlaylistService } from '../services/playlist.service';
 
-const router = express.Router();
+const router = Router();
+const playlistService = new PlaylistService();
 
-// Create a new playlist
+router.get('/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params; // Fetch the userId from route params
+    const playlists = await playlistService.getUserPlaylists(userId);
+    res.json(playlists);
+  } catch (error) {
+    console.error('Error fetching playlists:', error);
+    res.status(500).json({ error: 'Failed to fetch playlists' });
+  }
+});
+
 router.post('/', async (req, res) => {
   try {
-    const { user_id, name, cover_image_url } = req.body;
-    const playlist = await createPlaylist({ user_id, name, cover_image_url });
+    const { userId, name, description } = req.body; // Fetch userId, name, and description from the request body
+    const playlist = await playlistService.createPlaylist(userId, { name, description }); // Pass userId explicitly
     res.status(201).json(playlist);
   } catch (error) {
     console.error('Error creating playlist:', error);
-    res.status(500).json({ error: 'Error creating playlist' });
+    res.status(500).json({ error: 'Failed to create playlist' });
   }
 });
 
-// Get playlists by user ID
-router.get('/user/:user_id', async (req, res) => {
-  try {
-    const playlists = await getPlaylistsByUserId(Number(req.params.user_id));
-    res.json(playlists);
-  } catch (error) {
-    console.error('Error retrieving playlists:', error);
-    res.status(500).json({ error: 'Error retrieving playlists' });
-  }
-});
-
+export const playlistRouter = router;
 export default router;

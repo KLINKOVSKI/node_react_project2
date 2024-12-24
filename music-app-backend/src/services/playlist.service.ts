@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Playlist, CreatePlaylistDto, UpdatePlaylistDto } from '../types/playlist';
 import { TrackService } from './track.service';
 import { NotFoundError, UnauthorizedError } from '../utils/errors';
-import pool from '../database';
+import pool from '../database/database';
 
 export class PlaylistService {
   private db: Pool;
@@ -14,7 +14,7 @@ export class PlaylistService {
     this.trackService = new TrackService();
   }
 
-  public async getUserPlaylists(): Promise<Playlist[]> {
+  public async getUserPlaylists(userId: string): Promise<Playlist[]> {
     const result = await this.db.query(
       'SELECT * FROM playlists WHERE owner_id = $1 ORDER BY created_at DESC',
       [this.getCurrentUserId()]
@@ -22,18 +22,32 @@ export class PlaylistService {
     return result.rows;
   }
 
-  public async createPlaylist(data: CreatePlaylistDto): Promise<Playlist> {
-    const id = uuidv4();
-    const ownerId = this.getCurrentUserId();
-    const now = new Date();
+ public async createPlaylist(data: CreatePlaylistDto, p0: { name: any; description: any; }): Promise<Playlist> {
+  const id = uuidv4(); // Generate a unique ID for the playlist
+  const ownerId = this.getCurrentUserId(); // Retrieve the current user's ID
+  const now = new Date(); // Timestamp for creation and update
 
-    const result = await this.db.query(
-      'INSERT INTO playlists (id, name, description, owner_id, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [id, data.name, data.description, ownerId, now, now]
-    );
-
-    return result.rows[0];
+  // Validate that name exists
+  if (!data.name) {
+    throw new Error('Playlist name is required.');
   }
+
+  // Insert playlist into the database
+  const result = await this.db.query(
+    'INSERT INTO playlists (id, name, description, owner_id, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+    [id, data.name, data.description || null, ownerId, now, now] // Use `null` if no description is provided
+  );
+
+  // Check if the query succeeded
+  if (result.rows.length === 0) {
+    throw new Error('Failed to create playlist.');
+  }
+
+  // Return the created playlist
+  return result.rows[0];
+}
+
+  
 
   public async getPlaylist(id: string): Promise<Playlist> {
     const result = await this.db.query(
@@ -118,3 +132,4 @@ export class PlaylistService {
     return 'current-user-id';
   }
 }
+

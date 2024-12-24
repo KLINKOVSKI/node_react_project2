@@ -8,8 +8,8 @@ const router = express.Router();
 // Create a new user
 router.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { username, email, password_hash } = req.body;
-    const user = await createUser({ username, email, password_hash });
+    const { username, email, password} = req.body;
+    const user = await createUser({ username, email, password});
     res.status(201).json(user); // Send a response, don't return it
   } catch (error) {
     console.error('Error creating user:', error);

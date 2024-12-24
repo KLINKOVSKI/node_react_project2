@@ -4,7 +4,7 @@ const testDb = async () => {
   const newUser = await createUser({
     username: 'testuser',
     email: 'testuser@example.com',
-    password_hash: 'hashedpassword123',
+    password: 'hashedpassword123',
   });
   console.log('New User:', newUser);
 

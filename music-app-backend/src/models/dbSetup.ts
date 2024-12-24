@@ -1,3 +1,5 @@
+// In models/dbSetup.ts
+
 import pool from '../database/database';
 
 const createTables = async () => {
@@ -6,7 +8,7 @@ const createTables = async () => {
       id SERIAL PRIMARY KEY,
       username VARCHAR(50) UNIQUE NOT NULL,
       email VARCHAR(100) UNIQUE NOT NULL,
-      password_hash VARCHAR(255) NOT NULL,
+      password VARCHAR(255) NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
@@ -38,4 +40,5 @@ const createTables = async () => {
   }
 };
 
-createTables();
+// Export the createTables function so it can be used in server.ts
+export { createTables };

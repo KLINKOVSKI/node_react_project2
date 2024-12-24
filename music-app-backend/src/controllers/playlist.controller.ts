@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Path, Security, Route } from 'tsoa';
+import { Controller, Get, Post, Put, Delete, Body, Path, Security, Route, Query } from 'tsoa';
 import { PlaylistService } from '../services/playlist.service';
 import { Playlist, CreatePlaylistDto, UpdatePlaylistDto } from '../types/playlist';
 
@@ -13,14 +13,28 @@ export class PlaylistController extends Controller {
   }
 
   @Get('/')
-  public async getUserPlaylists(): Promise<Playlist[]> {
-    return this.playlistService.getUserPlaylists();
+  public async getUserPlaylists(@Query() userId: string): Promise<Playlist[]> {
+    if (!userId) {
+      throw new Error('User ID is required to fetch playlists.');
+    }
+    return this.playlistService.getUserPlaylists(userId);
   }
 
+  
   @Post('/')
   public async createPlaylist(@Body() data: CreatePlaylistDto): Promise<Playlist> {
-    return this.playlistService.createPlaylist(data);
+    if (!data.name) {
+      throw new Error('Playlist name is required.');
+    }
+  
+    // Delegate the creation logic to the service
+    const playlist = await this.createPlaylist(data);
+  
+    // Return the created playlist
+    return playlist;
   }
+  
+
 
   @Get('{id}')
   public async getPlaylist(@Path() id: string): Promise<Playlist> {

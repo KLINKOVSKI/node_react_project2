@@ -1,53 +1,52 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { config } from '../config';
-import { LoginDto, RegisterDto, AuthResponse } from '../types/auth';
-import { UserRepository } from '../repositories/user.repository';
-import { AuthError } from '../utils/errors';
+import pool from '../database/database';
 
 export class AuthService {
-  private userRepository: UserRepository;
+  // Login user
+  async login(email: string, password: string) {
+    const query = 'SELECT * FROM users WHERE email = $1 AND password_hash = $2';
+    const values = [email, password];
 
-  constructor() {
-    this.userRepository = new UserRepository();
-  }
+    const { rows } = await pool.query(query, values);
+    const user = rows[0];
 
-  public async login(credentials: LoginDto): Promise<AuthResponse> {
-    const user = await this.userRepository.findByUsername(credentials.username);
     if (!user) {
-      throw new AuthError('Invalid credentials');
+      throw new Error('Invalid credentials');
     }
 
-    const isValid = await bcrypt.compare(credentials.password, user.password);
-    if (!isValid) {
-      throw new AuthError('Invalid credentials');
-    }
-
-    const token = this.generateToken(user);
-    return { token, user: { id: user.id, username: user.username } };
+    // Return user data without the password hash
+    return {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      createdAt: user.created_at
+    };
   }
 
-  public async register(userData: RegisterDto): Promise<AuthResponse> {
-    const existingUser = await this.userRepository.findByUsername(userData.username);
-    if (existingUser) {
-      throw new AuthError('Username already exists');
+  // Register user
+  async register(username: string, email: string, password: string) {
+    const checkUserQuery = 'SELECT * FROM users WHERE email = $1';
+    const checkUserValues = [email];
+
+    const { rows: existingUsers } = await pool.query(checkUserQuery, checkUserValues);
+    if (existingUsers.length > 0) {
+      throw new Error('User already exists');
     }
 
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    const user = await this.userRepository.create({
-      ...userData,
-      password: hashedPassword,
-    });
+    const insertQuery = `
+      INSERT INTO users (username, email, password_hash) 
+      VALUES ($1, $2, $3) RETURNING id, username, email, created_at
+    `;
+    const insertValues = [username, email, password];
 
-    const token = this.generateToken(user);
-    return { token, user: { id: user.id, username: user.username } };
-  }
+    const { rows } = await pool.query(insertQuery, insertValues);
+    const newUser = rows[0];
 
-  private generateToken(user: any): string {
-    return jwt.sign(
-      { id: user.id, username: user.username },
-      config.jwt.secret,
-      { expiresIn: config.jwt.expiresIn }
-    );
+    // Return user data without the password hash
+    return {
+      id: newUser.id,
+      username: newUser.username,
+      email: newUser.email,
+      createdAt: newUser.created_at
+    };
   }
 }
