@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';  // Import FormsModule
-import { HttpClientModule } from '@angular/common/http';  // Import HttpClientModule
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,7 +9,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   standalone: true,
-  imports: [FormsModule, HttpClientModule, CommonModule], // Add HttpClientModule here
+  imports: [FormsModule, CommonModule], // Add HttpClientModule here
 })
 export class LoginComponent {
   username: string = '';

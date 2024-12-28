@@ -1,17 +1,50 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';  // To use ngModel for two-way binding
-import { HttpClientModule } from '@angular/common/http';  // To use HttpClient
-import { CommonModule } from '@angular/common';  // To use ngIf in the template
+import {FormsModule} from '@angular/forms';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
   standalone: true,
-  imports: [FormsModule, HttpClientModule, CommonModule] // Import necessary modules
+  imports: [
+    FormsModule,
+    NgIf
+  ]
 })
+export class RegisterComponent {
+  username: string = '';
+  email: string = '';
+  password: string = '';
+  confirmPassword: string = '';
+  errorMessage: string = '';
+  successMessage: string = '';
+
+  // Shared list of registered accounts (this would normally be in a service or database)
+  static accounts: { username: string; email: string; password: string }[] = [];
+
+  constructor(private router: Router) {}
+
+  onSubmit(event: Event): void {
+    event.preventDefault();
+
+    // Check if an account with the same username or email already exists
+    const existingAccount = RegisterComponent.accounts.find(
+      (account) => account.username === this.username || account.email === this.email
+    );
+    if (existingAccount) {
+      this.errorMessage = 'Username or email already exists!';
+      return;
+    }
+    // If all validations pass, save the new account
+    RegisterComponent.accounts.push({ username: this.username, email: this.email, password: this.password });
+    this.successMessage = 'Registration successful!';
+  }
+}
+
+//here is our try to link with our sql database
+/*
 export class RegisterComponent {
   name: string = '';
   surname: string = '';
@@ -56,5 +89,4 @@ export class RegisterComponent {
     this.router.navigate(['/login']);
   }
 }
-
-
+*/

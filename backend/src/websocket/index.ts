@@ -21,7 +21,7 @@ export const setupWebSocket = (wss: WebSocketServer) => {
   });
 };
 
-const handleWebSocketMessage = (ws: InstanceType<typeof WebSocket.WebSocket>, message: WebSocketMessage) => {
+const handleWebSocketMessage = (ws: WebSocket, message: WebSocketMessage) => {
   switch (message.type) {
     case WebSocketEventType.TRACK_PROGRESS:
       // Broadcast track progress to all connected clients
@@ -47,4 +47,3 @@ const broadcastMessage = (message: WebSocketMessage) => {
     }
   });
 };
-

@@ -1,4 +1,4 @@
-import * as angular from "@angular/core";
+import * as angular from "angular";
 angular.module('musicApp').controller('TracksController', [
   '$scope', '$http', '$timeout',
   function (

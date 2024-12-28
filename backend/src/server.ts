@@ -10,7 +10,7 @@ import trackRoutes from './routes/tracks.routes';
 import musicRoutes from './routes/music.routes';
 import { createTables } from './models/dbSetup'; // Correct import
 import { fetchTracks } from './services/jamendo.service';
-
+import authRoutes from './routes/auth.routes';
 
 dotenv.config(); // Load environment variables
 
@@ -28,22 +28,23 @@ createTables()  // Call the function to create tables
 
 // Root route
 app.get('/', (req: Request, res: Response) => {
-    res.send('Welcome to the Music App API!');
+  res.send('Welcome to the Music App API!');
 });
 
 app.get('/api/tracks', async (req, res) => {
-    try {
-        const limit = Number(req.query.limit) || 50;
-        const tracks = await fetchTracks(limit);
-        res.json(tracks);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch tracks' });
-    }
+  try {
+    const limit = Number(req.query.limit) || 50;
+    const tracks = await fetchTracks(limit);
+    res.json(tracks);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch tracks' });
+  }
 });
 
 // Public routes
 app.use('/api/music', musicRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 
 // Secured routes
 app.use('/api/protected/playlists', authMiddleware, playlistRoutes);
@@ -53,10 +54,10 @@ app.use(errorHandler);
 
 // 404 handler for undefined routes
 app.use((req: Request, res: Response, next: NextFunction) => {
-    res.status(404).json({ message: 'Route not found' });
+  res.status(404).json({ message: 'Route not found' });
 });
 
 // Start server
 app.listen(port, () => {
-    console.log(`🚀 Server running at http://localhost:${port}`);
+  console.log(`🚀 Server running at http://localhost:${port}`);
 });

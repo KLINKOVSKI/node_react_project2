@@ -25,3 +25,4 @@ router.post('/register', async (req, res) => {
 });
 
 export const authRouter = router;
+export default router;
