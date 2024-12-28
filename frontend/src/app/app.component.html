@@ -4,7 +4,12 @@
     <h1>Our music streaming web page</h1>
   </div>
 
-  <!-- The content of the page, based on the active route -->
+  <div style="text-align: center; margin-top: 50px;">
+    <button (click)="goToLogin()">Login</button>
+    <button (click)="goToRegister()">Register</button>
+  </div>
+
+  <!-- Routed content will appear here -->
   <router-outlet></router-outlet>
 
   <!-- Footer at the bottom of the page -->

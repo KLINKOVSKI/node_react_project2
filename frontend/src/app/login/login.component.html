@@ -1,9 +1,8 @@
 <div class="login-container">
   <h2>Login</h2>
-  <h3>To connect as the admin : username='admin' & password='adminpassword'. Else click on the here button.</h3>
-  <form (ngSubmit)="onLogin()">
-    <div>
-      <label for="username">Username</label>
+  <form (submit)="onSubmit($event)">
+    <div class="form-group">
+      <label for="username">Username:</label>
       <input
         type="text"
         id="username"
@@ -12,9 +11,8 @@
         required
       />
     </div>
-
-    <div>
-      <label for="password">Password</label>
+    <div class="form-group">
+      <label for="password">Password:</label>
       <input
         type="password"
         id="password"
@@ -23,8 +21,7 @@
         required
       />
     </div>
-
-    <button type="submit">Login</button>
+    <button type="submit" class="btn">Login</button>
   </form>
-  <h2>No Account? Sign in <a (click)="onNavigateToSignup()">here!</a></h2>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
 </div>
