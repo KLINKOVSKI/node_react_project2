@@ -28,12 +28,12 @@
     />
   </div>
 
-  <!-- Error Message -->
+  <!-- Error Message (First Block) -->
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </div>
 
-  <!-- Tracks List -->
+  <!-- Tracks List (First Block) -->
   <div *ngIf="filteredTracks.length > 0; else noTracks" class="tracks-grid">
     <div
       *ngFor="let track of filteredTracks; let i = index"
@@ -66,31 +66,52 @@
   <ng-template #noTracks>
     <p class="no-tracks">Tracks are loading. Please wait.</p>
   </ng-template>
-</div>
 
-<!-- Sticky Music Player -->
-<div class="music-player" *ngIf="currentTrack">
-  <div class="player-details">
-    <img [src]="currentTrack.image" alt="{{ currentTrack.name }}" />
-    <div>
-      <h3>{{ currentTrack.name }}</h3>
-      <p>{{ currentTrack.artist_name }}</p>
+  <!-- Tracks List (Second Block) -->
+  <div *ngIf="tracks.length > 0; else noTracks" class="tracks-grid">
+    <div
+      *ngFor="let track of tracks; let i = index"
+      class="track-card"
+      (click)="playTrack(track, i)"
+    >
+      <img
+        [src]="track.image"
+        alt="{{ track.name }}"
+        class="track-image"
+        loading="lazy"
+      />
+      <div class="track-details">
+        <h3 class="track-title">{{ track.name }}</h3>
+        <p class="track-artist">{{ track.artist_name }}</p>
+        <p class="track-album">{{ track.album_name }}</p>
+      </div>
     </div>
   </div>
 
-  <div class="player-controls">
-    <button (click)="prevTrack()">⏮</button>
-    <button (click)="togglePlay()">{{ isPlaying ? '⏸' : '▶️' }}</button>
-    <button (click)="nextTrack()">⏭</button>
-  </div>
+  <!-- Sticky Music Player -->
+  <div class="music-player" *ngIf="currentTrack">
+    <div class="player-details">
+      <img [src]="currentTrack.image" alt="{{ currentTrack.name }}" />
+      <div>
+        <h3>{{ currentTrack.name }}</h3>
+        <p>{{ currentTrack.artist_name }}</p>
+      </div>
+    </div>
 
-  <input
-    type="range"
-    class="volume-control"
-    min="0"
-    max="1"
-    step="0.01"
-    [(ngModel)]="volume"
-    (input)="adjustVolume()"
-  />
+    <div class="player-controls">
+      <button (click)="prevTrack()">⏮</button>
+      <button (click)="togglePlay()">{{ isPlaying ? '⏸' : '▶️' }}</button>
+      <button (click)="nextTrack()">⏭</button>
+    </div>
+
+    <input
+      type="range"
+      class="volume-control"
+      min="0"
+      max="1"
+      step="0.01"
+      [(ngModel)]="volume"
+      (input)="adjustVolume()"
+    />
+  </div>
 </div>

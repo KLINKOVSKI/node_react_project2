@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MusicApiService } from '../services/jamendo.service';
-import { NgForOf, NgIf } from '@angular/common';
+import { NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-music',
   templateUrl: './music.component.html',
   standalone: true,
-  imports: [NgForOf, NgIf, FormsModule],
+  imports: [NgForOf, NgIf, NgOptimizedImage, FormsModule],
   styleUrls: ['./music.component.css']
 })
 export class MusicComponent implements OnInit {
@@ -49,14 +49,14 @@ export class MusicComponent implements OnInit {
   }
 
   // Play selected track from the list or playlist
-  playTrack(track: any, playlist: any = null): void {
+  playTrack(track: any, index: number): void {
     if (this.currentTrack?.id === track.id && this.isPlaying) {
       this.togglePlay(); // Pause if the same track is clicked
       return;
     }
 
     this.currentTrack = track;
-    this.currentTrackIndex = playlist ? playlist.tracks.indexOf(track) : 0;
+    this.currentTrackIndex = index;
     this.audio.src = track.audio;
     this.audio.play();
     this.isPlaying = true;
