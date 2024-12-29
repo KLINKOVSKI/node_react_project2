@@ -1,14 +1,96 @@
-<div *ngIf="errorMessage; else musicList" class="error">
-  {{ errorMessage }}
-</div>
-
-<ng-template #musicList>
-  <div class="music-container">
-    <div *ngFor="let track of tracks" class="music-card">
-      <img [ngSrc]="track.image" width="200" height="200" alt="Album cover of {{ track.name }}" />
-      <h3>{{ track.name }}</h3>
-      <p>{{ track.artist_name }}</p>
-      <audio [src]="track.audio" controls></audio>
+<div class="music-container">
+  <!-- Playlist Display (Above Songs) -->
+  <div *ngIf="playlists.length > 0" class="playlists">
+    <h3>Playlists</h3>
+    <div *ngFor="let playlist of playlists">
+      <div class="playlist">
+        <strong>{{ playlist.name }}</strong>
+        <ul class="playlist-tracks">
+          <li *ngFor="let track of playlist.tracks" (click)="playTrack(track, playlist)">
+            <span class="track-name">{{ track.name }}</span>
+            <span class="track-artist">{{ track.artist_name }}</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
-</ng-template>
+
+  <!-- Create Playlist Button -->
+  <button class="create-playlist-btn" (click)="createPlaylist()">Create Playlist</button>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Search for a track..."
+      (input)="searchTracks()"
+    />
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Tracks List -->
+  <div *ngIf="filteredTracks.length > 0; else noTracks" class="tracks-grid">
+    <div
+      *ngFor="let track of filteredTracks; let i = index"
+      class="track-card"
+      (click)="playTrack(track, i)"
+    >
+      <img
+        [src]="track.image"
+        alt="{{ track.name }}"
+        class="track-image"
+        loading="lazy"
+      />
+      <div class="track-details">
+        <h3 class="track-title">{{ track.name }}</h3>
+        <p class="track-artist">{{ track.artist_name }}</p>
+        <p class="track-album">{{ track.album_name }}</p>
+
+        <!-- Add Track to Playlist Dropdown -->
+        <div *ngIf="playlists.length > 0">
+          <select (change)="selectPlaylist($event, track)">
+            <option value="">Add to Playlist</option>
+            <option *ngFor="let playlist of playlists" [value]="playlist.name">{{ playlist.name }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Tracks Fallback -->
+  <ng-template #noTracks>
+    <p class="no-tracks">Tracks are loading. Please wait.</p>
+  </ng-template>
+</div>
+
+<!-- Sticky Music Player -->
+<div class="music-player" *ngIf="currentTrack">
+  <div class="player-details">
+    <img [src]="currentTrack.image" alt="{{ currentTrack.name }}" />
+    <div>
+      <h3>{{ currentTrack.name }}</h3>
+      <p>{{ currentTrack.artist_name }}</p>
+    </div>
+  </div>
+
+  <div class="player-controls">
+    <button (click)="prevTrack()">⏮</button>
+    <button (click)="togglePlay()">{{ isPlaying ? '⏸' : '▶️' }}</button>
+    <button (click)="nextTrack()">⏭</button>
+  </div>
+
+  <input
+    type="range"
+    class="volume-control"
+    min="0"
+    max="1"
+    step="0.01"
+    [(ngModel)]="volume"
+    (input)="adjustVolume()"
+  />
+</div>
