@@ -1,1 +1,14 @@
-<p>music works!</p>
+<div *ngIf="errorMessage; else musicList" class="error">
+  {{ errorMessage }}
+</div>
+
+<ng-template #musicList>
+  <div class="music-container">
+    <div *ngFor="let track of tracks" class="music-card">
+      <img [ngSrc]="track.image" width="200" height="200" alt="Album cover of {{ track.name }}" />
+      <h3>{{ track.name }}</h3>
+      <p>{{ track.artist_name }}</p>
+      <audio [src]="track.audio" controls></audio>
+    </div>
+  </div>
+</ng-template>

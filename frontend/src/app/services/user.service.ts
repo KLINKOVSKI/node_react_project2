@@ -1,20 +1,30 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:3000/api'; // Update to match your backend API
+  private user: any = null;
 
-  constructor(private http: HttpClient) {}
-
-  validateUser(username: string, password: string): Observable<boolean> {
-    return this.http.post<boolean>(`${this.apiUrl}/login`, { username, password });
+  constructor() {
+    // Retrieve stored user data from local storage or wherever you're saving the session
+    this.user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
   }
 
-  createUser(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, user);
+  // Set the logged-in user information
+  setUser(user: any) {
+    this.user = user;
+    localStorage.setItem('loggedInUser', JSON.stringify(user)); // Store in localStorage (or you could use sessionStorage)
+  }
+
+  // Get the logged-in user information
+  getUser() {
+    return this.user;
+  }
+
+  // Clear the logged-in user (for logout functionality)
+  clearUser() {
+    this.user = null;
+    localStorage.removeItem('loggedInUser');
   }
 }
