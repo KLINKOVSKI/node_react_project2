@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-music',
   templateUrl: './music.component.html',
   standalone: true,
-  imports: [NgForOf, NgIf, NgOptimizedImage, FormsModule],
+  imports: [NgForOf, NgIf, FormsModule],
   styleUrls: ['./music.component.css']
 })
 export class MusicComponent implements OnInit {
